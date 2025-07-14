@@ -1,3 +1,5 @@
+console.log('Question 1');
+
 const bracketVerifier = (str = '') => {
   const brackets = {
     normalBracket: {
@@ -48,8 +50,3 @@ const bracketVerifier = (str = '') => {
 };
 
 console.log(bracketVerifier('([)]]'));
-
-/**
- * Solution 1: Using Object/Counter approach
- * Count opening and closing brackets for each type
- */

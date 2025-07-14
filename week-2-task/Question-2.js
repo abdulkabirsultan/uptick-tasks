@@ -2,13 +2,13 @@ console.log('question 2');
 
 const pairSum = (arr = [], target) => {
   const result = [];
-  const sortedArrays = arr.sort((a, b) => a - b);
+  const sortedArray = arr.sort((a, b) => a - b);
 
   let left = 0;
-  let right = sortedArrays.length - 1;
+  let right = sortedArray.length - 1;
 
   while (left < right) {
-    const sum = sortedArrays[left] + sortedArrays[right];
+    const sum = sortedArray[left] + sortedArray[right];
 
     if (sum === target) {
       result.push([left, right]);
@@ -37,5 +37,5 @@ const pairSum2 = (arr, target) => {
   }
   return [];
 };
-console.log(pairSum([2, 7, 11, 15], 19));
-console.log(pairSum2([2, 7, 11, 15], 9));
+console.log(pairSum([2, 7, 11, 15], 9));
+console.log(pairSum2([2, 7, 11, 15], 26));

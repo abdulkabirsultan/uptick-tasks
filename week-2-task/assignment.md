@@ -36,22 +36,25 @@
    - Explain how to add new orders to the queue.
    - Simulate processing orders by removing them from the front of the queue.
    - Discuss the efficiency of using a queue for this purpose.
-   - Create a JavaScript function named recommendRestaurants that takes an array of restaurant objects as input. Each object should have the following properties:
+
+   ***
+
+4. Create a JavaScript function named recommendRestaurants that takes an array of restaurant objects as input. Each object should have the following properties:
 
    **name**: The name of the restaurant (string)
    _rating_: The average customer rating of the restaurant (number)
    The function should perform two functionalities:
 
----
+- Sorting Restaurants:
+  Sort the restaurants in descending order based on their rating values.
+- Finding Restaurants by Rating:
+  Given an optional targetRating
+  number) passed as a second argument, return a new array containing only
+  restaurants with a rating higher than or equal to the targetRating.
 
-4. Sorting Restaurants:
-   Sort the restaurants in descending order based on their rating values.
-   Finding Restaurants by Rating: Given an optional targetRating
-   number) passed as a second argument, return a new array containing only
-   restaurants with a rating higher than or equal to the targetRating. You
-   can use an appropriate searching algorithm (e.g., built-in filter
-   methods).
-   Example
+You can use an appropriate searching algorithm (e.g., built-in filter
+methods).
+Example
 
 const restaurants = [
 { name: "Pizza Palace", rating: 4.8 },
