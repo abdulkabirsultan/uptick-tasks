@@ -2,18 +2,17 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { SequelizeModule } from '@nestjs/sequelize';
+import { TasksModule } from './tasks/tasks.module';
 
 @Module({
   imports: [
     SequelizeModule.forRoot({
       dialect: 'sqlite',
-      host: 'localhost',
-      port: 3306,
-      username: 'root',
-      password: 'root',
-      database: 'test',
-      models: [],
+      storage: './database.sqlite',
+      autoLoadModels: true,
+      synchronize: true,
     }),
+    TasksModule,
   ],
   controllers: [AppController],
   providers: [AppService],
