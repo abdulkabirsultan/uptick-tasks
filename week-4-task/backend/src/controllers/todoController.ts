@@ -1,10 +1,12 @@
 import { Request, Response } from 'express';
-import todoService from '../services/todoService';
+import todoService from '../services/todo.service';
+import { StatusCodes } from 'http-status-codes';
 
 // Get all todos
 export const getTodos = async (req: Request, res: Response): Promise<void> => {
   try {
-    const todos = await todoService.getAllTodos();
+    const userId = req.user?.userId!;
+    const todos = await todoService.getAllTodos(userId);
     res.status(200).json({
       success: true,
       count: todos.length,
@@ -13,7 +15,7 @@ export const getTodos = async (req: Request, res: Response): Promise<void> => {
   } catch (error) {
     res.status(500).json({
       success: false,
-      error: 'Server Error',
+      error,
     });
   }
 };
@@ -21,7 +23,9 @@ export const getTodos = async (req: Request, res: Response): Promise<void> => {
 // Get single todo
 export const getTodo = async (req: Request, res: Response): Promise<void> => {
   try {
-    const todo = await todoService.getTodoById(req.params.id);
+    const userId = req.user?.userId!;
+
+    const todo = await todoService.getTodoById(req.params.id, userId);
 
     if (!todo) {
       res.status(404).json({
@@ -38,7 +42,7 @@ export const getTodo = async (req: Request, res: Response): Promise<void> => {
   } catch (error) {
     res.status(500).json({
       success: false,
-      error: 'Server Error',
+      error,
     });
   }
 };
@@ -49,9 +53,11 @@ export const createTodo = async (
   res: Response
 ): Promise<void> => {
   try {
-    const todo = await todoService.createTodo(req.body);
+    const userId = req.user?.userId!;
 
-    res.status(201).json({
+    const todo = await todoService.createTodo(req.body, userId);
+
+    res.status(StatusCodes.CREATED).json({
       success: true,
       data: todo,
     });
@@ -64,9 +70,9 @@ export const createTodo = async (
         error: messages,
       });
     } else {
-      res.status(500).json({
+      res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
         success: false,
-        error: 'Server Error',
+        error,
       });
     }
   }
@@ -78,17 +84,19 @@ export const updateTodo = async (
   res: Response
 ): Promise<void> => {
   try {
-    const todo = await todoService.updateTodo(req.params.id, req.body);
+    const userId = req.user?.userId!;
+
+    const todo = await todoService.updateTodo(req.params.id, req.body, userId);
 
     if (!todo) {
-      res.status(404).json({
+      res.status(StatusCodes.NOT_FOUND).json({
         success: false,
         error: 'Todo not found',
       });
       return;
     }
 
-    res.status(200).json({
+    res.status(StatusCodes.OK).json({
       success: true,
       data: todo,
     });
@@ -96,14 +104,14 @@ export const updateTodo = async (
     if (error instanceof Error && error.name === 'ValidationError') {
       const messages = Object.values(error).map((val) => val.message);
 
-      res.status(400).json({
+      res.status(StatusCodes.BAD_REQUEST).json({
         success: false,
         error: messages,
       });
     } else {
-      res.status(500).json({
+      res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
         success: false,
-        error: 'Server Error',
+        error,
       });
     }
   }
@@ -115,24 +123,26 @@ export const deleteTodo = async (
   res: Response
 ): Promise<void> => {
   try {
-    const todo = await todoService.deleteTodo(req.params.id);
+    const userId = req.user?.userId!;
+
+    const todo = await todoService.deleteTodo(req.params.id, userId);
 
     if (!todo) {
-      res.status(404).json({
+      res.status(StatusCodes.NOT_FOUND).json({
         success: false,
         error: 'Todo not found',
       });
       return;
     }
 
-    res.status(200).json({
+    res.status(StatusCodes.OK).json({
       success: true,
       data: {},
     });
   } catch (error) {
-    res.status(500).json({
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
       success: false,
-      error: 'Server Error',
+      error,
     });
   }
 };

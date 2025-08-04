@@ -14,6 +14,7 @@ export const createTodoSchema = z.object({
       .optional(),
 
     completed: z.boolean().optional().default(false),
+    createdBy: z.string().optional(),
   }),
 });
 

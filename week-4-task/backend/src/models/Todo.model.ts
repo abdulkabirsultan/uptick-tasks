@@ -6,6 +6,7 @@ export interface ITodo extends Document {
   completed: boolean;
   createdAt: Date;
   updatedAt: Date;
+  createdBy: mongoose.Types.ObjectId;
 }
 
 const TodoSchema: Schema = new Schema(
@@ -24,6 +25,11 @@ const TodoSchema: Schema = new Schema(
     completed: {
       type: Boolean,
       default: false,
+    },
+    createdBy: {
+      type: Schema.Types.ObjectId,
+      ref: 'User',
+      required: [true, 'Created by is required'],
     },
   },
   {

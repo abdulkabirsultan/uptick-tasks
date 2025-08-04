@@ -12,9 +12,12 @@ import {
   updateTodoSchema,
   todoIdSchema,
 } from '../validation/todoSchema';
+import { authenticateUser } from '../middleware/authMiddleware';
 
 const router = express.Router();
 
+//Middleware
+router.use(authenticateUser);
 router.route('/').get(getTodos).post(validate(createTodoSchema), createTodo);
 
 router

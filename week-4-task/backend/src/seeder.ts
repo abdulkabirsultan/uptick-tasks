@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
-import Todo from './models/Todo';
+import Todo from './models/Todo.model';
 import connectDB from './config/db';
 
 // Load env vars

@@ -1,40 +1,76 @@
 import { useState } from 'react';
 import { BiEdit, BiSolidTrashAlt } from 'react-icons/bi';
 
-type TaskProps = {
-  id?: string;
+export type Task = {
+  id: string;
   title: string;
   description?: string;
   completed: boolean;
+  onToggleComplete: (id: string, completed: boolean) => void;
+  onDelete: (id: string) => void;
 };
-const Task = ({ id, title, description, completed }: TaskProps) => {
-  const [completedState, setCompletedState] = useState(completed);
+
+const Task = ({
+  id,
+  title,
+  description,
+  completed,
+  onToggleComplete,
+  onDelete,
+}: Task) => {
+  const [isCompleted, setIsCompleted] = useState(completed);
+
+  const handleToggle = () => {
+    const newState = !isCompleted;
+    setIsCompleted(newState);
+    onToggleComplete(id, newState);
+  };
+
   return (
-    <div
-      key={id}
-      className='py-4 flex flex-row justify-between items-center border-b border-gray-300'
-    >
+    <div className='py-4 flex items-center border-b border-gray-300'>
       <input
         type='checkbox'
-        checked={completedState}
-        className='mr-2 w-4 h-4 cursor-pointer'
-        onChange={() => setCompletedState(!completedState)}
+        checked={isCompleted}
+        onChange={handleToggle}
+        className='mr-3 w-5 h-5 cursor-pointer accent-blue-500'
       />
 
-      <div>
+      <div className='flex-grow'>
         <h2
           className={`font-bold text-lg ${
-            completedState ? 'line-through' : 'text-black'
+            isCompleted ? 'line-through text-gray-500' : 'text-black'
           }`}
         >
           {title}
         </h2>
-        {description && <p className='text-gray-700 text-sm'>{description}</p>}
+        {description && (
+          <p
+            className={`text-sm ${
+              isCompleted ? 'text-gray-400' : 'text-gray-700'
+            }`}
+          >
+            {description}
+          </p>
+        )}
       </div>
-      <button className='ml-auto cursor-pointer flex flex-row gap-2 items-center'>
-        <BiEdit className='text-blue-600 hover:text-blue-500 text-xl' />
-        <BiSolidTrashAlt className='text-red-600 hover:text-red-500 text-xl' />
-      </button>
+
+      <div className='flex gap-3'>
+        <button
+          onClick={() => alert('Edit functionality not implemented yet')}
+          className='text-blue-600 hover:text-blue-500'
+          aria-label='Edit task'
+        >
+          <BiEdit className='text-xl' />
+        </button>
+
+        <button
+          onClick={() => onDelete(id)}
+          className='text-red-600 hover:text-red-500'
+          aria-label='Delete task'
+        >
+          <BiSolidTrashAlt className='text-xl' />
+        </button>
+      </div>
     </div>
   );
 };
