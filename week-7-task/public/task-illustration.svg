@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="800px" height="600px" viewBox="0 0 800 600" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+    <g transform="translate(100, 100)">
+      <!-- Task Board -->
+      <rect fill="#F3F4F6" x="0" y="0" width="600" height="400" rx="12"></rect>
+      
+      <!-- Task List -->
+      <rect fill="#FFFFFF" x="20" y="60" width="560" height="320" rx="8"></rect>
+      
+      <!-- Board Header -->
+      <rect fill="#3B82F6" x="0" y="0" width="600" height="40" rx="12" ry="0"></rect>
+      <text font-family="Arial" font-size="18" font-weight="bold" fill="#FFFFFF" x="20" y="26">
+        Task Manager
+      </text>
+      
+      <!-- Task Items -->
+      <g transform="translate(40, 80)">
+        <!-- Task 1 -->
+        <rect fill="#EFF6FF" x="0" y="0" width="520" height="60" rx="4"></rect>
+        <rect fill="#3B82F6" x="0" y="0" width="10" height="60" rx="2"></rect>
+        <text font-family="Arial" font-size="16" font-weight="bold" fill="#111827" x="20" y="25">
+          Create project proposal
+        </text>
+        <text font-family="Arial" font-size="14" fill="#6B7280" x="20" y="45">
+          Due tomorrow
+        </text>
+        <circle fill="#10B981" cx="490" cy="30" r="12"></circle>
+        <path d="M485,30 L489,34 L495,26" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+        
+        <!-- Task 2 -->
+        <rect fill="#FFFFFF" x="0" y="70" width="520" height="60" rx="4"></rect>
+        <rect fill="#EC4899" x="0" y="70" width="10" height="60" rx="2"></rect>
+        <text font-family="Arial" font-size="16" font-weight="bold" fill="#111827" x="20" y="95">
+          Review design updates
+        </text>
+        <text font-family="Arial" font-size="14" fill="#6B7280" x="20" y="115">
+          High priority
+        </text>
+        <circle fill="#E5E7EB" cx="490" cy="100" r="12"></circle>
+        
+        <!-- Task 3 -->
+        <rect fill="#FFFFFF" x="0" y="140" width="520" height="60" rx="4"></rect>
+        <rect fill="#F59E0B" x="0" y="140" width="10" height="60" rx="2"></rect>
+        <text font-family="Arial" font-size="16" font-weight="bold" fill="#111827" x="20" y="165">
+          Plan team meeting
+        </text>
+        <text font-family="Arial" font-size="14" fill="#6B7280" x="20" y="185">
+          For next week
+        </text>
+        <circle fill="#E5E7EB" cx="490" cy="170" r="12"></circle>
+        
+        <!-- Task 4 -->
+        <rect fill="#FFFFFF" x="0" y="210" width="520" height="60" rx="4"></rect>
+        <rect fill="#8B5CF6" x="0" y="210" width="10" height="60" rx="2"></rect>
+        <text font-family="Arial" font-size="16" font-weight="bold" fill="#111827" x="20" y="235">
+          Research new technologies
+        </text>
+        <text font-family="Arial" font-size="14" fill="#6B7280" x="20" y="255">
+          Ongoing
+        </text>
+        <circle fill="#E5E7EB" cx="490" cy="240" r="12"></circle>
+      </g>
+      
+      <!-- Add Task Button -->
+      <g transform="translate(270, 440)">
+        <rect fill="#3B82F6" x="0" y="0" width="120" height="40" rx="20"></rect>
+        <text font-family="Arial" font-size="16" font-weight="bold" fill="#FFFFFF" text-anchor="middle" x="60" y="26">
+          Add Task
+        </text>
+      </g>
+    </g>
+  </g>
+</svg>
