@@ -7,15 +7,19 @@ type authPayload = { username: string; password: string };
 
 class AuthService implements IAuthService {
   async register(payload: authPayload) {
-    const user = await UserModel.create(payload);
-    const token = createJwt({ userId: user._id, username: user.username });
-    return {
-      user: {
-        id: user._id,
-        username: user.username,
-      },
-      token,
-    };
+    try {
+      const user = await UserModel.create(payload);
+      const token = createJwt({ userId: user._id, username: user.username });
+      return {
+        user: {
+          id: user._id,
+          username: user.username,
+        },
+        token,
+      };
+    } catch (error) {
+      throw new Error('Registration failed\n' + error);
+    }
   }
 
   async login({ username, password }: authPayload) {

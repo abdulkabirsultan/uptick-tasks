@@ -4,9 +4,12 @@ import { StatusCodes } from 'http-status-codes';
 
 export const register = async (req: Request, res: Response) => {
   try {
+    console.log('Registering user:', req.body);
     const user = await AuthService.register(req.body);
+    console.log('User registered successfully:', user);
     res.status(StatusCodes.CREATED).json(user);
   } catch (error: any) {
+    console.error('Error registering user:', error);
     res.status(StatusCodes.BAD_REQUEST).json({ error: error.message });
   }
 };
