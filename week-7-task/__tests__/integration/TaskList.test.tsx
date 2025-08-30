@@ -39,28 +39,30 @@ describe('TaskList Component Integration Tests', () => {
     fireEvent.click(activeFilterButton);
 
     // Verify only active tasks are shown
-    const activeTasks = mockTasks.filter(task => !task.completed);
-    const completedTasks = mockTasks.filter(task => task.completed);
+    const activeTasks = mockTasks.filter((task) => !task.completed);
+    const completedTasks = mockTasks.filter((task) => task.completed);
 
-    activeTasks.forEach(task => {
+    activeTasks.forEach((task) => {
       expect(screen.getByText(task.title)).toBeInTheDocument();
     });
 
-    completedTasks.forEach(task => {
+    completedTasks.forEach((task) => {
       expect(screen.queryByText(task.title)).not.toBeInTheDocument();
     });
 
     // Click the "Completed" filter
-    const completedFilterButton = screen.getByRole('button', { name: 'Completed' });
+    const completedFilterButton = screen.getByRole('button', {
+      name: 'Completed',
+    });
     fireEvent.click(completedFilterButton);
 
     // Verify only completed tasks are shown
     await waitFor(() => {
-      activeTasks.forEach(task => {
+      activeTasks.forEach((task) => {
         expect(screen.queryByText(task.title)).not.toBeInTheDocument();
       });
 
-      completedTasks.forEach(task => {
+      completedTasks.forEach((task) => {
         expect(screen.getByText(task.title)).toBeInTheDocument();
       });
     });
@@ -93,11 +95,11 @@ describe('TaskList Component Integration Tests', () => {
 
     // Fill out the task form
     fireEvent.change(screen.getByLabelText('Title'), {
-      target: { value: newTask.title }
+      target: { value: newTask.title },
     });
 
     fireEvent.change(screen.getByLabelText('Description (optional)'), {
-      target: { value: newTask.description }
+      target: { value: newTask.description },
     });
 
     // Submit the form
@@ -152,7 +154,7 @@ describe('TaskList Component Integration Tests', () => {
     // Find all checkboxes and click the first one
     const checkboxes = screen.getAllByRole('checkbox');
     const firstTaskCheckbox = checkboxes[0];
-    
+
     fireEvent.click(firstTaskCheckbox);
 
     // Wait for the task to be updated
@@ -170,7 +172,7 @@ describe('TaskList Component Integration Tests', () => {
     server.use(
       http.get('/api/tasks', () => {
         return HttpResponse.json(
-          { error: 'Failed to fetch tasks' }, 
+          { error: 'Failed to fetch tasks' },
           { status: 500 }
         );
       })

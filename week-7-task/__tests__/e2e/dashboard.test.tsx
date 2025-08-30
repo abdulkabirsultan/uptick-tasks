@@ -13,24 +13,24 @@ describe('Dashboard End-to-End Flow', () => {
   beforeEach(() => {
     // Mock authenticated session
     (useSession as jest.Mock).mockReturnValue({
-      data: { 
+      data: {
         user: { name: 'Test User', email: 'test@example.com' },
-        expires: '2023-01-01'
+        expires: '2023-01-01',
       },
-      status: 'authenticated'
+      status: 'authenticated',
     });
-    
+
     // Mock router
     (useRouter as jest.Mock).mockReturnValue({
       push: jest.fn(),
-      refresh: jest.fn()
+      refresh: jest.fn(),
     });
   });
 
   it('renders the complete dashboard with tasks and allows full task management', async () => {
     // Render the dashboard page
     render(<Dashboard />);
-    
+
     // Verify the user is authenticated and welcome message is displayed
     await waitFor(() => {
       expect(screen.getByText(/welcome/i)).toBeInTheDocument();
@@ -45,17 +45,17 @@ describe('Dashboard End-to-End Flow', () => {
     // Create a new task
     const taskTitle = 'E2E Test Task';
     const taskDescription = 'This is a task created in an E2E test';
-    
+
     fireEvent.change(screen.getByLabelText('Title'), {
-      target: { value: taskTitle }
+      target: { value: taskTitle },
     });
-    
+
     fireEvent.change(screen.getByLabelText('Description (optional)'), {
-      target: { value: taskDescription }
+      target: { value: taskDescription },
     });
-    
+
     fireEvent.click(screen.getByRole('button', { name: 'Add Task' }));
-    
+
     // Verify the task was added
     await waitFor(() => {
       expect(screen.getByText(taskTitle)).toBeInTheDocument();
@@ -65,20 +65,20 @@ describe('Dashboard End-to-End Flow', () => {
     // Edit the newly created task
     const editButtons = screen.getAllByTitle('Edit task');
     fireEvent.click(editButtons[0]);
-    
+
     const updatedTitle = 'Updated E2E Task';
     const updatedDescription = 'This task was updated in an E2E test';
-    
+
     fireEvent.change(screen.getByLabelText('Title'), {
-      target: { value: updatedTitle }
+      target: { value: updatedTitle },
     });
-    
+
     fireEvent.change(screen.getByLabelText('Description (optional)'), {
-      target: { value: updatedDescription }
+      target: { value: updatedDescription },
     });
-    
+
     fireEvent.click(screen.getByText('Save'));
-    
+
     // Verify the task was updated
     await waitFor(() => {
       expect(screen.getByText(updatedTitle)).toBeInTheDocument();
@@ -88,10 +88,10 @@ describe('Dashboard End-to-End Flow', () => {
     // Mark the task as complete
     const checkboxes = screen.getAllByRole('checkbox');
     fireEvent.click(checkboxes[0]);
-    
+
     // Filter to see only completed tasks
     fireEvent.click(screen.getByRole('button', { name: 'Completed' }));
-    
+
     // Verify the task appears in completed tasks
     await waitFor(() => {
       expect(screen.getByText(updatedTitle)).toBeInTheDocument();
@@ -99,7 +99,7 @@ describe('Dashboard End-to-End Flow', () => {
 
     // Filter to see only active tasks
     fireEvent.click(screen.getByRole('button', { name: 'Active' }));
-    
+
     // Verify the task doesn't appear in active tasks
     await waitFor(() => {
       expect(screen.queryByText(updatedTitle)).not.toBeInTheDocument();
@@ -107,13 +107,13 @@ describe('Dashboard End-to-End Flow', () => {
 
     // Go back to all tasks
     fireEvent.click(screen.getByRole('button', { name: 'All' }));
-    
+
     // Delete the task
     window.confirm = jest.fn().mockReturnValue(true);
-    
+
     const deleteButtons = screen.getAllByTitle('Delete task');
     fireEvent.click(deleteButtons[0]);
-    
+
     // Verify the task was deleted
     await waitFor(() => {
       expect(screen.queryByText(updatedTitle)).not.toBeInTheDocument();
@@ -124,19 +124,19 @@ describe('Dashboard End-to-End Flow', () => {
     // Mock unauthenticated session
     (useSession as jest.Mock).mockReturnValueOnce({
       data: null,
-      status: 'unauthenticated'
+      status: 'unauthenticated',
     });
-    
+
     const mockRouter = {
       push: jest.fn(),
-      refresh: jest.fn()
+      refresh: jest.fn(),
     };
-    
+
     (useRouter as jest.Mock).mockReturnValue(mockRouter);
-    
+
     // Render the dashboard page
     render(<Dashboard />);
-    
+
     // Verify redirect to login
     await waitFor(() => {
       expect(mockRouter.push).toHaveBeenCalledWith('/login');

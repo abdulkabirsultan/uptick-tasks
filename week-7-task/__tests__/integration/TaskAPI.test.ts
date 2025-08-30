@@ -42,16 +42,18 @@ describe('Tasks API Integration Tests', () => {
       status: 200,
       statusText: 'OK',
       headers: new Headers(),
-      json: jest.fn().mockResolvedValue({ tasks: mockTasks, count: mockTasks.length }),
+      json: jest
+        .fn()
+        .mockResolvedValue({ tasks: mockTasks, count: mockTasks.length }),
     } as unknown as Response);
 
     // Make the API request
-    fetchResponse = await fetch('/api/tasks') as unknown as MockResponse;
+    fetchResponse = (await fetch('/api/tasks')) as unknown as MockResponse;
     responseData = await fetchResponse.json();
 
     // Verify the fetch was called correctly
     expect(global.fetch).toHaveBeenCalledWith('/api/tasks');
-    
+
     // Verify the response data
     expect(fetchResponse.ok).toBe(true);
     expect(responseData.tasks).toEqual(mockTasks);
@@ -83,14 +85,14 @@ describe('Tasks API Integration Tests', () => {
     } as unknown as Response);
 
     // Make the API request
-    fetchResponse = await fetch('/api/tasks', {
+    fetchResponse = (await fetch('/api/tasks', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(newTaskData),
-    }) as unknown as MockResponse;
-    
+    })) as unknown as MockResponse;
+
     responseData = await fetchResponse.json();
 
     // Verify the fetch was called correctly
@@ -101,7 +103,7 @@ describe('Tasks API Integration Tests', () => {
         body: JSON.stringify(newTaskData),
       })
     );
-    
+
     // Verify the response data
     expect(fetchResponse.ok).toBe(true);
     expect(fetchResponse.status).toBe(201);
@@ -126,12 +128,14 @@ describe('Tasks API Integration Tests', () => {
     } as unknown as Response);
 
     // Make the API request
-    fetchResponse = await fetch(`/api/tasks/${task.id}`) as unknown as MockResponse;
+    fetchResponse = (await fetch(
+      `/api/tasks/${task.id}`
+    )) as unknown as MockResponse;
     responseData = await fetchResponse.json();
 
     // Verify the fetch was called correctly
     expect(global.fetch).toHaveBeenCalledWith(`/api/tasks/${task.id}`);
-    
+
     // Verify the response data
     expect(fetchResponse.ok).toBe(true);
     expect(responseData.task).toEqual(task);
@@ -160,14 +164,14 @@ describe('Tasks API Integration Tests', () => {
     } as unknown as Response);
 
     // Make the API request
-    fetchResponse = await fetch(`/api/tasks/${task.id}`, {
+    fetchResponse = (await fetch(`/api/tasks/${task.id}`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(updates),
-    }) as unknown as MockResponse;
-    
+    })) as unknown as MockResponse;
+
     responseData = await fetchResponse.json();
 
     // Verify the fetch was called correctly
@@ -178,7 +182,7 @@ describe('Tasks API Integration Tests', () => {
         body: JSON.stringify(updates),
       })
     );
-    
+
     // Verify the response data
     expect(fetchResponse.ok).toBe(true);
     expect(responseData.task).toMatchObject({
@@ -201,10 +205,10 @@ describe('Tasks API Integration Tests', () => {
     } as unknown as Response);
 
     // Make the API request
-    fetchResponse = await fetch(`/api/tasks/${task.id}`, {
+    fetchResponse = (await fetch(`/api/tasks/${task.id}`, {
       method: 'DELETE',
-    }) as unknown as MockResponse;
-    
+    })) as unknown as MockResponse;
+
     responseData = await fetchResponse.json();
 
     // Verify the fetch was called correctly
@@ -214,7 +218,7 @@ describe('Tasks API Integration Tests', () => {
         method: 'DELETE',
       })
     );
-    
+
     // Verify the response data
     expect(fetchResponse.ok).toBe(true);
     expect(responseData.message).toBe('Task deleted');
@@ -233,7 +237,9 @@ describe('Tasks API Integration Tests', () => {
     } as unknown as Response);
 
     // Make the API request
-    fetchResponse = await fetch(`/api/tasks/${nonExistentTaskId}`) as unknown as MockResponse;
+    fetchResponse = (await fetch(
+      `/api/tasks/${nonExistentTaskId}`
+    )) as unknown as MockResponse;
     responseData = await fetchResponse.json();
 
     // Verify the response data
@@ -258,14 +264,14 @@ describe('Tasks API Integration Tests', () => {
     } as unknown as Response);
 
     // Make the API request
-    fetchResponse = await fetch('/api/tasks', {
+    fetchResponse = (await fetch('/api/tasks', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(invalidTaskData),
-    }) as unknown as MockResponse;
-    
+    })) as unknown as MockResponse;
+
     responseData = await fetchResponse.json();
 
     // Verify the response data

@@ -22,6 +22,7 @@ A full-stack task management application built with Next.js, TypeScript, and Tai
   - Heroicons for icons
 
 - **Backend**:
+
   - Node.js API (connects to an external backend)
   - JWT authentication
 
@@ -110,26 +111,31 @@ __tests__/
 ### Running Tests
 
 Run all tests:
+
 ```bash
 npm test
 ```
 
 Run unit tests only:
+
 ```bash
 npm run test:unit
 ```
 
 Run integration tests only:
+
 ```bash
 npm run test:integration
 ```
 
 Run end-to-end tests only:
+
 ```bash
 npm run test:e2e
 ```
 
 Generate test coverage report:
+
 ```bash
 npm run test:coverage
 ```
@@ -139,16 +145,19 @@ npm run test:coverage
 The application can be containerized using Docker:
 
 1. Build the Docker image:
+
 ```bash
 sudo docker build -t task-manager .
 ```
 
 2. Run the container:
+
 ```bash
 sudo docker run -p 3000:3000 task-manager
 ```
 
 3. Alternatively, use docker-compose:
+
 ```bash
 sudo docker-compose up
 ```

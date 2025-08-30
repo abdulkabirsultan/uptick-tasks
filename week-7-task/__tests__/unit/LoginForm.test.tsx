@@ -32,7 +32,7 @@ describe('LoginForm Component', () => {
 
   it('renders the login form correctly', () => {
     render(<LoginForm />);
-    
+
     // Check if the form elements are rendered
     expect(screen.getByText('Sign In')).toBeInTheDocument();
     expect(screen.getByLabelText('Email')).toBeInTheDocument();
@@ -44,13 +44,13 @@ describe('LoginForm Component', () => {
 
   it('handles input changes', () => {
     render(<LoginForm />);
-    
+
     const emailInput = screen.getByLabelText('Email');
     const passwordInput = screen.getByLabelText('Password');
-    
+
     fireEvent.change(emailInput, { target: { value: 'test@example.com' } });
     fireEvent.change(passwordInput, { target: { value: 'password123' } });
-    
+
     expect(emailInput).toHaveValue('test@example.com');
     expect(passwordInput).toHaveValue('password123');
   });
@@ -58,20 +58,20 @@ describe('LoginForm Component', () => {
   it('handles successful login submission', async () => {
     // Mock successful sign in
     mockSignIn.mockResolvedValueOnce({ ok: true, error: null });
-    
+
     render(<LoginForm />);
-    
+
     // Fill in the form
-    fireEvent.change(screen.getByLabelText('Email'), { 
-      target: { value: 'test@example.com' } 
+    fireEvent.change(screen.getByLabelText('Email'), {
+      target: { value: 'test@example.com' },
     });
-    fireEvent.change(screen.getByLabelText('Password'), { 
-      target: { value: 'password123' } 
+    fireEvent.change(screen.getByLabelText('Password'), {
+      target: { value: 'password123' },
     });
-    
+
     // Submit the form
     fireEvent.click(screen.getByRole('button', { name: 'Sign In' }));
-    
+
     // Verify that signIn was called with correct params
     await waitFor(() => {
       expect(mockSignIn).toHaveBeenCalledWith('credentials', {
@@ -80,7 +80,7 @@ describe('LoginForm Component', () => {
         password: 'password123',
       });
     });
-    
+
     // Verify navigation and toast
     await waitFor(() => {
       expect(mockToast.success).toHaveBeenCalledWith('Login successful!');
@@ -91,29 +91,29 @@ describe('LoginForm Component', () => {
 
   it('handles login error', async () => {
     // Mock failed sign in
-    mockSignIn.mockResolvedValueOnce({ 
-      ok: false, 
-      error: 'Invalid credentials' 
+    mockSignIn.mockResolvedValueOnce({
+      ok: false,
+      error: 'Invalid credentials',
     });
-    
+
     render(<LoginForm />);
-    
+
     // Fill in the form
-    fireEvent.change(screen.getByLabelText('Email'), { 
-      target: { value: 'test@example.com' } 
+    fireEvent.change(screen.getByLabelText('Email'), {
+      target: { value: 'test@example.com' },
     });
-    fireEvent.change(screen.getByLabelText('Password'), { 
-      target: { value: 'wrongpassword' } 
+    fireEvent.change(screen.getByLabelText('Password'), {
+      target: { value: 'wrongpassword' },
     });
-    
+
     // Submit the form
     fireEvent.click(screen.getByRole('button', { name: 'Sign In' }));
-    
+
     // Verify that signIn was called
     await waitFor(() => {
       expect(mockSignIn).toHaveBeenCalled();
     });
-    
+
     // Verify error toast and no navigation
     await waitFor(() => {
       expect(mockToast.error).toHaveBeenCalledWith('Invalid credentials');
@@ -123,28 +123,33 @@ describe('LoginForm Component', () => {
 
   it('shows loading state during submission', async () => {
     // Mock a slow response to observe loading state
-    mockSignIn.mockImplementation(() => new Promise(resolve => {
-      setTimeout(() => {
-        resolve({ ok: true, error: null });
-      }, 100);
-    }));
-    
+    mockSignIn.mockImplementation(
+      () =>
+        new Promise((resolve) => {
+          setTimeout(() => {
+            resolve({ ok: true, error: null });
+          }, 100);
+        })
+    );
+
     render(<LoginForm />);
-    
+
     // Fill and submit form
-    fireEvent.change(screen.getByLabelText('Email'), { 
-      target: { value: 'test@example.com' } 
+    fireEvent.change(screen.getByLabelText('Email'), {
+      target: { value: 'test@example.com' },
     });
-    fireEvent.change(screen.getByLabelText('Password'), { 
-      target: { value: 'password123' } 
+    fireEvent.change(screen.getByLabelText('Password'), {
+      target: { value: 'password123' },
     });
-    
+
     fireEvent.click(screen.getByRole('button', { name: 'Sign In' }));
-    
+
     // Check that the button shows loading state
-    expect(screen.getByRole('button', { name: 'Signing in...' })).toBeInTheDocument();
+    expect(
+      screen.getByRole('button', { name: 'Signing in...' })
+    ).toBeInTheDocument();
     expect(screen.getByRole('button')).toBeDisabled();
-    
+
     // Wait for the operation to complete
     await waitFor(() => {
       expect(mockToast.success).toHaveBeenCalled();

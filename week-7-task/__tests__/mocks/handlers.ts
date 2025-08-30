@@ -25,13 +25,16 @@ export const handlers = [
 
   // Tasks endpoints
   http.get('/api/tasks', () => {
-    return HttpResponse.json({ tasks: mockTasks, count: mockTasks.length }, { status: 200 });
+    return HttpResponse.json(
+      { tasks: mockTasks, count: mockTasks.length },
+      { status: 200 }
+    );
   }),
 
   http.post('/api/tasks', async ({ request }) => {
-    const data = await request.json() as TaskCreateRequest;
+    const data = (await request.json()) as TaskCreateRequest;
     const { title, description } = data;
-    
+
     const newTask = {
       id: 'new-task-id',
       title,
@@ -41,47 +44,47 @@ export const handlers = [
       updatedAt: new Date().toISOString(),
       userId: mockUser.id,
     };
-    
+
     return HttpResponse.json({ task: newTask }, { status: 201 });
   }),
 
   http.get('/api/tasks/:id', ({ params }) => {
     const { id } = params;
-    const task = mockTasks.find(task => task.id === String(id));
-    
+    const task = mockTasks.find((task) => task.id === String(id));
+
     if (!task) {
       return HttpResponse.json({ error: 'Task not found' }, { status: 404 });
     }
-    
+
     return HttpResponse.json({ task }, { status: 200 });
   }),
 
   http.patch('/api/tasks/:id', async ({ params, request }) => {
     const { id } = params;
-    const updates = await request.json() as TaskUpdateRequest;
-    const taskIndex = mockTasks.findIndex(task => task.id === String(id));
-    
+    const updates = (await request.json()) as TaskUpdateRequest;
+    const taskIndex = mockTasks.findIndex((task) => task.id === String(id));
+
     if (taskIndex === -1) {
       return HttpResponse.json({ error: 'Task not found' }, { status: 404 });
     }
-    
+
     const updatedTask = {
       ...mockTasks[taskIndex],
       ...updates,
       updatedAt: new Date().toISOString(),
     };
-    
+
     return HttpResponse.json({ task: updatedTask }, { status: 200 });
   }),
 
   http.delete('/api/tasks/:id', ({ params }) => {
     const { id } = params;
-    const taskIndex = mockTasks.findIndex(task => task.id === String(id));
-    
+    const taskIndex = mockTasks.findIndex((task) => task.id === String(id));
+
     if (taskIndex === -1) {
       return HttpResponse.json({ error: 'Task not found' }, { status: 404 });
     }
-    
+
     return HttpResponse.json({ message: 'Task deleted' }, { status: 200 });
   }),
 ];
