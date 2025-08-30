@@ -10,3 +10,6 @@
 !**/.env.example
 **/tmp/
 **/.cache/
+
+**/docs/
+**/.vscode/
